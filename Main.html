@@ -114,8 +114,8 @@
   
   
 
-  <form >
-  <table class = "stocktable" style="width:60%">
+  <form id="stockForm">
+  <table id = "stocktable" class = "stocktable" style="width:60%">
     <tr style="background-color:powderblue;">
       <th> Order </th>
       <th> Quantity </th>
@@ -131,11 +131,11 @@
     
       <tr class = "row">
         <td> 
-          <input type="checkbox" id="stock1" name="stock1" value="apple">
+          <input type="checkbox" id="chk1" name="stock1" value="apple">
           <label for="stock1"></label>
            </td>
         <td> 
-          <input type="number" name="apple" min="0" max="10">
+          <input type="number" id="quan1" name="apple" min="0" max="10" onblur="textBlur()" disabled>
           </td>
         <td class="stockname">AAPL
           <span class="hidden">Apple Inc. is an American multinational technology company that specializes in consumer electronics, software and online services.</span>
@@ -151,11 +151,11 @@
     
     <tr class = "row">
       <td> 
-        <input type="checkbox" id="stock2" name="stock2" value="microsoft">
+        <input type="checkbox" id="chk2" name="stock2" value="microsoft">
         <label for="stock2"></label>
         </td>
       <td> 
-        <input type="number" name="microsoft" min="0" max="10">
+        <input type="number" id="quan2" name="microsoft" min="0" max="10" disabled>
       </td>
       <td class="stockname"> MSFT
         <span class="hidden">Microsoft Corporation is an American multinational technology corporation which produces computer software, consumer electronics, personal computers, and related services. </span>
@@ -167,11 +167,11 @@
     
     <tr class = "row">
       <td> 
-        <input type="checkbox" id="stock3" name="stock3" value="tesla">
+        <input type="checkbox" id="chk3" name="stock3" value="tesla">
         <label for="stock3"></label>
         </td>
       <td> 
-        <input type="number" name="tesla" min="0" max="10">
+        <input type="number" id="quan3" name="tesla" min="0" max="10" disabled>
          </td>
       <td class="stockname"> TSLA 
         <span class="hidden">Tesla, Inc. is an American electric vehicle and clean energy company based in Austin, Texas </span>
@@ -183,11 +183,11 @@
     
     <tr class = "row">
       <td> 
-        <input type="checkbox" id="stock4" name="stock4" value="amazon">
+        <input type="checkbox" id="chk4" name="stock4" value="amazon">
         <label for="stock4"></label>
         </td>
       <td> 
-        <input type="number" name="amazon" min="0" max="10">
+        <input type="number" id="quan4" name="amazon" min="0" max="10" disabled>
         </td>
       <td class="stockname"> AMZN 
         <span class="hidden">Amazon.com, Inc. is an American multinational technology company which focuses on e-commerce, cloud computing, digital streaming, and artificial intelligence. </span>
@@ -199,7 +199,7 @@
     
   </table>
   <br>
-  <input type="submit" value="Submit">
+  <input id="submitbtn" type="submit" value="Submit">
   <input type="reset">
   </form>
 
@@ -223,5 +223,90 @@
   <p> CS Student discovering the world of coding. I am a BIS and Finance major; who is interested in stocks and coding.</p>
 
 </body>
+
+
+
+
+<script>
+
+ 
+   
+  // add event listeners for check boxes
+  for (let i = 1; i <= 4; i++) {
+    let id = 'chk' + i;
+    document.getElementById(id).addEventListener("click", processCheck);
+  }
+  
+  // add event listener for submit button
+  document.getElementById('submitbtn').addEventListener("submit", summarize);
+  
+  
+  // Enable/Disable numeric input when the user checks or unchecks a checkbox
+  function processCheck() {
+    
+    let quan = this.id.replace('chk','quan');
+	  let numInput = document.getElementById(quan);
+
+    if (this.checked){
+      document.getElementById(quan).disabled= false;
+      numInput.value = 1;
+    } 
+    else {
+      document.getElementById(quan).disabled= true;
+      numInput.value = "";
+    }
+
+  }
+
+  function textBlur(){
+    let quan = this.id;
+	  let numInput = document.getElementById(quan);
+
+    if (numInput.value == 0 || numInput.value == ""){
+      document.getElementById(quan).disabled= true;
+      
+    }
+    
+
+    if (this.checked){
+      document.getElementById(quan).disabled= false;
+      numInput.value = 1;
+    } 
+    else {
+      document.getElementById(quan).disabled= true;
+      numInput.value = "";
+    }
+  }
+  
+  //document.getElementById("stockForm").onsubmit = function() {summarize()};
+  //document.getElementById("stockForm").addEventListener("submit", summarize);
+
+
+  // generate an alert summarizing the order
+  function summarize() {
+    let summary = '';
+	  let table = document.getElementById("stocktable");
+
+    for (let i = 1; i <= 4; i++) {
+            // let id = 'chk' + i;
+            // if (document.getElementById(id).checked){
+            //   summary = summary + row.cells[2].innerText + '\n';          
+            // }
+            //alert(table.rows[i].cells[0].children[0].checked);
+            if (table.rows[i].cells[0].children[0].checked){
+              
+              summary = summary + table.rows[i].cells[1].children[0].value + '  x  ' + table.rows[i].cells[2].innerText + '\n';  
+  
+            }
+          }
+          
+
+
+    alert(summary);
+	  }
+    
+  
+  
+  </script>
 
 </html>
