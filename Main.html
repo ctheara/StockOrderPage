@@ -108,7 +108,7 @@
 
   <p> Check the stock(s) you want to buy and pick the quantity.</p>
 
-  <p> Limit to 10 orders per stock. </p>
+  <p> Limit to 10 orders per stock. <span style="background-color: yellow;"> I cannot figure out how to do the textBlur for all the input textbox</span></p>
   
   
   
@@ -155,7 +155,7 @@
         <label for="stock2"></label>
         </td>
       <td> 
-        <input type="number" id="quan2" name="microsoft" min="0" max="10" disabled>
+        <input type="number" id="quan2" name="microsoft" min="0" max="10" onblur="textBlur()" disabled>
       </td>
       <td class="stockname"> MSFT
         <span class="hidden">Microsoft Corporation is an American multinational technology corporation which produces computer software, consumer electronics, personal computers, and related services. </span>
@@ -171,7 +171,7 @@
         <label for="stock3"></label>
         </td>
       <td> 
-        <input type="number" id="quan3" name="tesla" min="0" max="10" disabled>
+        <input type="number" id="quan3" name="tesla" min="0" max="10" onblur="textBlur()" disabled>
          </td>
       <td class="stockname"> TSLA 
         <span class="hidden">Tesla, Inc. is an American electric vehicle and clean energy company based in Austin, Texas </span>
@@ -187,7 +187,7 @@
         <label for="stock4"></label>
         </td>
       <td> 
-        <input type="number" id="quan4" name="amazon" min="0" max="10" disabled>
+        <input type="number" id="quan4" name="amazon" min="0" max="10" onblur="textBlur()" disabled>
         </td>
       <td class="stockname"> AMZN 
         <span class="hidden">Amazon.com, Inc. is an American multinational technology company which focuses on e-commerce, cloud computing, digital streaming, and artificial intelligence. </span>
@@ -238,7 +238,7 @@
   }
   
   // add event listener for submit button
-  document.getElementById('submitbtn').addEventListener("submit", summarize);
+  document.getElementById('stockForm').addEventListener("submit", summarize);
   
   
   // Enable/Disable numeric input when the user checks or unchecks a checkbox
@@ -258,24 +258,24 @@
 
   }
 
+  //uncheck the checkbox and clear 
   function textBlur(){
-    let quan = this.id;
-	  let numInput = document.getElementById(quan);
+    //get id of quantity of the textbox
+    let quan = document.getElementById('quan1').id;
 
-    if (numInput.value == 0 || numInput.value == ""){
+    //get value in the textbox
+	  let numInput = document.getElementById(quan).value;
+
+    //if the quanity is blank or 0, uncheck and clear textbox
+    if (numInput == 0 || numInput == ""){
       document.getElementById(quan).disabled= true;
-      
+      document.getElementById(quan).value = "";
+      let chk = document.getElementById(quan).id.replace('quan','chk');
+      document.getElementById(chk).checked = false;
     }
     
 
-    if (this.checked){
-      document.getElementById(quan).disabled= false;
-      numInput.value = 1;
-    } 
-    else {
-      document.getElementById(quan).disabled= true;
-      numInput.value = "";
-    }
+   
   }
   
   //document.getElementById("stockForm").onsubmit = function() {summarize()};
@@ -302,7 +302,7 @@
           
 
 
-    alert(summary);
+    alert('You Ordered: \n' + summary);
 	  }
     
   
