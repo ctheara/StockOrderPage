@@ -108,7 +108,7 @@
 
   <p> Check the stock(s) you want to buy and pick the quantity.</p>
 
-  <p> Limit to 10 orders per stock. <span style="background-color: yellow;"> I cannot figure out how to do the textBlur for all the input textbox</span></p>
+  <p> Limit to 10 orders per stock.</p>
   
   
   
@@ -155,7 +155,7 @@
         <label for="stock2"></label>
         </td>
       <td> 
-        <input type="number" id="quan2" name="microsoft" min="0" max="10" onblur="textBlur()" disabled>
+        <input type="number" id="quan2" name="microsoft" min="0" max="10" disabled>
       </td>
       <td class="stockname"> MSFT
         <span class="hidden">Microsoft Corporation is an American multinational technology corporation which produces computer software, consumer electronics, personal computers, and related services. </span>
@@ -225,8 +225,6 @@
 </body>
 
 
-
-
 <script>
 
  
@@ -243,7 +241,6 @@
   
   // Enable/Disable numeric input when the user checks or unchecks a checkbox
   function processCheck() {
-    
     let quan = this.id.replace('chk','quan');
 	  let numInput = document.getElementById(quan);
 
@@ -255,33 +252,34 @@
       document.getElementById(quan).disabled= true;
       numInput.value = "";
     }
-
   }
 
+
+  // add event listeners for input boxes
+  let input2 = document.getElementsByTagName('input');
+  for (let i of input2) {
+    if (i.id.includes('quan')){
+      document.getElementById(i.id).addEventListener('blur',textBlur);
+    }
+  }
   //uncheck the checkbox and clear 
   function textBlur(){
     //get id of quantity of the textbox
-    let quan = document.getElementById('quan1').id;
+    //let quan = document.getElementById('quan1').id;
+    let quan = this.id;
 
     //get value in the textbox
-	  let numInput = document.getElementById(quan).value;
-
+	  let numInput = this.value;
+    
     //if the quanity is blank or 0, uncheck and clear textbox
     if (numInput == 0 || numInput == ""){
       document.getElementById(quan).disabled= true;
       document.getElementById(quan).value = "";
       let chk = document.getElementById(quan).id.replace('quan','chk');
       document.getElementById(chk).checked = false;
-    }
-    
-
-   
+    }  
   }
   
-  //document.getElementById("stockForm").onsubmit = function() {summarize()};
-  //document.getElementById("stockForm").addEventListener("submit", summarize);
-
-
   // generate an alert summarizing the order
   function summarize() {
     let summary = '';
@@ -293,20 +291,14 @@
             //   summary = summary + row.cells[2].innerText + '\n';          
             // }
             //alert(table.rows[i].cells[0].children[0].checked);
-            if (table.rows[i].cells[0].children[0].checked){
-              
+            if (table.rows[i].cells[0].children[0].checked){            
               summary = summary + table.rows[i].cells[1].children[0].value + '  x  ' + table.rows[i].cells[2].innerText + '\n';  
-  
             }
           }
-          
-
-
     alert('You Ordered: \n' + summary);
 	  }
     
-  
-  
+
   </script>
 
 </html>
